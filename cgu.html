@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CGU — TULEGO</title>
+  <meta name="description" content="Conditions Générales d'Utilisation de TULEGO — Version bêta — Mars 2026">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,300;1,6..72,400;1,6..72,500;1,6..72,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 400;
+      color: #1e1e1e;
+      background: #fafaf9;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    h1, h2, h3, h4, .heading {
+      font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    h1 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 300; }
+    h2 { font-size: clamp(1.3rem, 2.2vw, 1.8rem); font-weight: 400; margin-top: 2.5rem; margin-bottom: 0.75rem; }
+    h3 { font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 500; }
+    :root {
+      --navy: #0f172a;
+      --burgundy: #7f1d1d;
+      --cream: #fafaf9;
+      --cream-dark: #f5f2ed;
+      --text: #1c1917;
+      --text-muted: #57534e;
+      --border: #e7e5e4;
+      --white: #ffffff;
+    }
+    .container { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+    .header {
+      background: var(--navy); color: var(--cream); padding: 2rem 0;
+      position: relative;
+    }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; }
+    .header-logo {
+      font-family: 'Newsreader', serif; font-size: 1.3rem; font-weight: 500;
+      color: var(--cream); text-decoration: none; letter-spacing: -0.02em;
+    }
+    .header-logo span { color: var(--burgundy); }
+    .header-close {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.1); border: none; cursor: pointer;
+      color: var(--cream); font-size: 1.2rem; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .header-close:hover { background: rgba(255,255,255,0.2); }
+    .page-title {
+      background: var(--cream-dark); padding: 3rem 0 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-title h1 { margin-bottom: 0.5rem; }
+    .page-title .meta { font-size: 0.85rem; color: var(--text-muted); }
+    .content { padding: 2rem 0 4rem; }
+    .content p { margin-bottom: 1rem; color: var(--text); font-size: 0.95rem; }
+    .content p:last-child { margin-bottom: 0; }
+    .content strong { color: var(--navy); }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      margin-top: 2rem; font-size: 0.9rem; color: var(--burgundy);
+      text-decoration: none; font-weight: 500;
+    }
+    .back-link:hover { text-decoration: underline; }
+    .footer {
+      background: var(--navy); color: rgba(255,255,255,0.7);
+      padding: 2rem 0; font-size: 0.8rem; text-align: center;
+    }
+    .footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    .footer a:hover { color: var(--cream); }
+    @media (max-width: 600px) {
+      .container { padding: 0 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="header-logo">TULEGO<span>.</span></a>
+      <a href="index.html" class="header-close" aria-label="Fermer">&times;</a>
+    </div>
+  </div>
+
+  <div class="page-title">
+    <div class="container">
+      <h1>Conditions Générales d'Utilisation</h1>
+      <div class="meta">TULEGO — Version bêta — Mars 2026</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="container">
+
+      <h2>Article 1 — Objet</h2>
+      <p>Les présentes CGU régissent l'accès et l'utilisation de TULEGO (tulego.fr), éditée par Thierry [NOM], liaminatch@gmail.com. TULEGO est une application d'aide à la décision clinique utilisant l'intelligence artificielle (Claude, Anthropic) pour générer des interprétations structurées de bilans psychométriques, notamment le WISC-V.</p>
+
+      <h2>Article 2 — Public ciblé</h2>
+      <p>TULEGO est exclusivement destiné aux psychologues titulaires, neuropsychologues, psychiatres et professionnels habilités à pratiquer des bilans psychométriques. L'accès est interdit aux particuliers, parents, tuteurs légaux et étudiants non diplômés. En utilisant TULEGO, l'utilisateur certifie être un professionnel habilité.</p>
+
+      <h2>Article 3 — Responsabilité clinique</h2>
+      <p>TULEGO est un outil d'aide à la décision clinique. Les analyses générées constituent des suggestions d'interprétation et non des conclusions diagnostiques définitives. La responsabilité du compte-rendu clinique, du diagnostic et des recommandations reste entièrement celle du praticien. L'utilisateur s'engage à relire, valider et signer toute analyse avant transmission. TULEGO ne remplace pas le jugement clinique du professionnel.</p>
+
+      <h2>Article 4 — Données personnelles et RGPD</h2>
+      <p>TULEGO est conçu selon le principe de minimisation des données (RGPD, art. 5). Ne saisissez pas le nom ou le prénom du patient. La date de naissance est utilisée uniquement pour le calcul de l'âge clinique et reste sous la responsabilité du praticien. Les données sont transmises à l'API Anthropic pour traitement et ne sont pas stockées de manière permanente. L'utilisateur est responsable du respect du RGPD dans sa pratique, notamment de l'information du patient sur l'utilisation d'outils numériques.</p>
+
+      <h2>Article 5 — Phase bêta</h2>
+      <p>TULEGO est en phase bêta gratuite. L'accès peut être suspendu ou modifié sans préavis. Aucune garantie de disponibilité continue n'est fournie. Les retours sont bienvenus à liaminatch@gmail.com.</p>
+
+      <h2>Article 6 — Propriété intellectuelle</h2>
+      <p>TULEGO, son architecture, ses prompts et ses cartographies cliniques sont la propriété exclusive de Thierry [NOM]. Les analyses validées et signées par le praticien lui appartiennent entièrement.</p>
+
+      <h2>Article 7 — Limitation de responsabilité</h2>
+      <p>Thierry [NOM] ne saurait être tenu responsable d'une erreur d'interprétation clinique résultant d'une utilisation sans relecture critique, d'un préjudice causé à un patient, d'une interruption de l'API Anthropic ou de toute perte de données.</p>
+
+      <h2>Article 8 — Modifications des CGU</h2>
+      <p>Les CGU peuvent être modifiées à tout moment. Les utilisateurs seront informés par notification dans l'application. La poursuite de l'utilisation vaut acceptation.</p>
+
+      <h2>Article 9 — Droit applicable</h2>
+      <p>Les présentes CGU sont soumises au droit français. En cas de litige, les tribunaux compétents de Saint-Denis de La Réunion seront seuls compétents.</p>
+
+      <h2>Article 10 — Contact</h2>
+      <p>Pour toute question : liaminatch@gmail.com — tulego.fr</p>
+
+      <h2>Article 11 — Conformité réglementaire IA</h2>
+      <p>TULEGO est développé dans le respect du cadre réglementaire européen applicable aux systèmes d'intelligence artificielle, notamment le Règlement (UE) sur l'intelligence artificielle (AI Act, 2024). En application de ce cadre, TULEGO intègre une supervision humaine obligatoire : le praticien conserve la maîtrise et la responsabilité finale de toute analyse produite. La mise en conformité formelle avec les exigences applicables aux systèmes à haut risque est en cours et sera finalisée avant toute commercialisation.</p>
+
+      <a href="index.html" class="back-link">&larr; Retour à TULEGO</a>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="container">
+      <a href="index.html">TULEGO<span style="color:var(--burgundy);">.</span></a> — L'Analyse Augmentée
+    </div>
+  </div>
+
+</body>
+</html>

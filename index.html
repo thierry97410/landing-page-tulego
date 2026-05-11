@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TULEGO — L'Analyse Augmentée</title>
+  <meta name="description" content="TULEGO structure le profil cognitif, formule les hypothèses, signale les limites. Le compte-rendu final reste le vôtre.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,300;1,6..72,400;1,6..72,500;1,6..72,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 400;
+      color: #1e1e1e;
+      background: #fafaf9;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    h1, h2, h3, h4, .heading {
+      font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    h1 { font-size: clamp(2.2rem, 5.5vw, 4rem); font-weight: 300; }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 300; }
+    h3 { font-size: clamp(1.3rem, 2.2vw, 1.8rem); font-weight: 400; }
+    h4 { font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 500; }
+    .body-large { font-size: clamp(1rem, 1.3vw, 1.1rem); line-height: 1.7; }
+    .body-small { font-size: clamp(0.85rem, 1vw, 0.95rem); line-height: 1.6; }
+    :root {
+      --navy: #0f172a;
+      --navy-light: #1e293b;
+      --navy-muted: #334155;
+      --burgundy: #7f1d1d;
+      --burgundy-light: #991b1b;
+      --burgundy-lighter: #b91c1c;
+      --burgundy-pale: #fef2f2;
+      --cream: #fafaf9;
+      --cream-dark: #f5f2ed;
+      --cream-darker: #efebe7;
+      --stone: #e7e5e4;
+      --stone-dark: #a8a29e;
+      --text: #1c1917;
+      --text-muted: #57534e;
+      --text-light: #a8a29e;
+      --white: #ffffff;
+      --border: #e7e5e4;
+      --border-light: #f0edeb;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+    .container-narrow { max-width: 880px; margin: 0 auto; padding: 0 1.5rem; }
+    .section { padding: 5rem 0; }
+    .section-dark { background: var(--navy); color: var(--cream); }
+    .section-cream { background: var(--cream-dark); }
+    .section-white { background: var(--white); }
+    .top-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--navy); color: var(--cream); padding: 0.65rem 1.5rem;
+      font-size: 0.8rem; display: flex; align-items: center;
+      justify-content: space-between; gap: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .top-banner-left { display: flex; align-items: center; gap: 0.5rem; flex: 1; }
+    .top-banner-left svg { flex-shrink: 0; opacity: 0.8; }
+    .top-banner-text { color: rgba(255,255,255,0.85); line-height: 1.4; }
+    .top-banner-cta {
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.4rem 1rem; font-size: 0.75rem; font-weight: 600;
+      font-family: 'Inter', sans-serif; color: var(--burgundy); text-shadow: 0 1px rgba(255,255,255,0.5);
+      text-decoration: none; white-space: nowrap; cursor: pointer;
+      background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+      border-radius: 30px; border: 1px solid var(--burgundy);
+      transition: all 0.2s ease;
+    }
+    .top-banner-cta:hover {
+      box-shadow: 0 4px 3px 1px rgba(255,255,255,0.06), 0 6px 8px rgba(0,0,0,0.3), 0 -4px 4px rgba(0,0,0,0.2), 0 -6px 4px rgba(255,255,255,0.04), inset 0 0 3px 3px rgba(0,0,0,0.15);
+    }
+    .top-banner-cta:active,
+    .top-banner-cta:focus {
+      box-shadow: 0 4px 3px 1px rgba(255,255,255,0.06), 0 6px 8px rgba(0,0,0,0.3), 0 -4px 4px rgba(0,0,0,0.2), 0 -6px 4px rgba(255,255,255,0.04), inset 0 0 5px 3px rgba(0,0,0,0.25), inset 0 0 30px rgba(0,0,0,0.15);
+    }
+    .nav {
+      position: fixed; top: 2.8rem; left: 0; right: 0; z-index: 99;
+      background: rgba(250,250,249,0.92); backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
+      padding: 0.75rem 0;
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo {
+      font-family: 'Newsreader', serif; font-size: 1.3rem; font-weight: 500;
+      color: var(--navy); text-decoration: none; letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--burgundy); }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-links a {
+      font-size: 0.8rem; color: var(--text-muted); text-decoration: none;
+      transition: color 0.2s; font-weight: 500;
+    }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-cta {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 600 !important;
+      font-family: 'Inter', sans-serif; color: #606060 !important; text-shadow: 0 1px #fff;
+      text-decoration: none; cursor: pointer;
+      background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+      border-radius: 30px; border: 1px solid #8F9092;
+      transition: all 0.2s ease;
+    }
+    .nav-cta:hover {
+      box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1 !important;
+    }
+    .nav-cta:active,
+    .nav-cta:focus {
+      box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+    }
+    .nav-mobile-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.25rem; }
+    .hero {
+      padding: 8rem 0 4rem;
+      background: linear-gradient(180deg, var(--cream-dark) 0%, var(--cream) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-content { max-width: 880px; margin: 0 auto; text-align: center; }
+    .hero h1 { margin-bottom: 1.5rem; }
+    .hero h1 em { font-style: italic; color: var(--burgundy); }
+    .hero-sub { color: var(--text-muted); margin-bottom: 1.5rem; max-width: 680px; margin-left: auto; margin-right: auto; }
+    .hero-devise { font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-style: normal; color: var(--text); font-size: clamp(2.3rem, 5.2vw, 3.45rem); margin-bottom: 1.5rem; line-height: 1.15; letter-spacing: -0.02em; font-weight: 600; }
+    .hero-devise .highlight-burgundy { color: var(--burgundy); }
+    .hero h1 { font-family: 'Times New Roman', Times, Georgia, serif; font-style: italic; font-size: clamp(1.32rem, 2.53vw, 1.84rem); font-weight: 300; margin-bottom: 0; letter-spacing: -0.01em; white-space: nowrap; }
+    .hero h1 .highlight-brand { color: var(--burgundy); font-style: normal; font-weight: 800; font-size: clamp(2.4rem, 4.8vw, 3.5rem); display: inline-block; margin-bottom: 0.5rem; letter-spacing: -0.03em; text-transform: uppercase; }
+    .hero-trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem 2.5rem; margin-top: 2.5rem; margin-bottom: 2.5rem; font-size: 0.8rem; color: var(--text-muted); }
+    .hero-trust-item { display: flex; align-items: center; gap: 0.4rem; }
+    .hero-trust-item svg { flex-shrink: 0; }
+    .hero-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.75rem 1.75rem; font-size: 0.9rem; font-weight: 600;
+      font-family: 'Inter', sans-serif; color: #606060; text-shadow: 0 1px #fff;
+      text-decoration: none; cursor: pointer;
+      background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+      border-radius: 30px; border: 1px solid #8F9092;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      color: var(--burgundy);
+      box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1;
+    }
+    .btn:active,
+    .btn:focus {
+      box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+    }
+    .btn-primary { background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%); }
+    .btn-secondary { background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%); }
+    .section-label {
+      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+      font-weight: 600; color: var(--burgundy); margin-bottom: 0.75rem;
+    }
+    .section-title { margin-bottom: 1rem; }
+    .section-title em { font-style: italic; color: var(--burgundy); }
+    .section-intro { color: var(--text-muted); max-width: 680px; }
+    .problem-text p { margin-bottom: 1.5rem; color: var(--text); max-width: 720px; }
+    .problem-text p:last-child { margin-bottom: 0; }
+    .problem-text .highlight { color: var(--burgundy); font-weight: 500; }
+
+    /* Cartes Problème — style SouravBandyopadhyay adapté */
+    .problem-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2.5rem 0;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .problem-cards .card {
+      display: block;
+      position: relative;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem 1.5rem;
+      text-decoration: none;
+      z-index: 0;
+      overflow: hidden;
+      transition: box-shadow 0.3s ease;
+    }
+    .problem-cards .card:hover {
+      box-shadow: 0 8px 32px rgba(127,29,29,0.1);
+    }
+    .problem-cards .card::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      top: -16px;
+      right: -16px;
+      background: linear-gradient(135deg, var(--burgundy), var(--burgundy-light));
+      height: 32px;
+      width: 32px;
+      border-radius: 32px;
+      transform: scale(1);
+      transform-origin: 50% 50%;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .problem-cards .card:hover::before {
+      transform: scale(40);
+    }
+    .problem-cards .card .card-number {
+      font-family: 'Newsreader', serif;
+      font-size: 2rem;
+      font-weight: 200;
+      color: rgba(127,29,29,0.08);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      transition: color 0.35s ease-out;
+    }
+    .problem-cards .card:hover .card-number {
+      color: rgba(255,255,255,0.2);
+    }
+    .problem-cards .card .card-icon {
+      font-size: 1.8rem;
+      color: var(--burgundy);
+      margin-bottom: 0.75rem;
+      transition: color 0.35s ease-out;
+    }
+    .problem-cards .card:hover .card-icon {
+      color: rgba(255,255,255,0.9);
+    }
+    .problem-cards .card .card-title {
+      font-family: 'Newsreader', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+      text-align: center;
+      transition: color 0.35s ease-out;
+    }
+    .problem-cards .card:hover .card-title {
+      color: #ffffff;
+    }
+    .problem-cards .card .card-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 0.75rem;
+      text-align: center;
+      transition: color 0.35s ease-out;
+    }
+    .problem-cards .card:hover .card-sub {
+      color: rgba(255,255,255,0.7);
+    }
+    .problem-cards .card .card-desc {
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.6;
+      text-align: justify;
+      overflow-wrap: break-word;
+      transition: color 0.35s ease-out;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.5s ease, opacity 0.5s ease, color 0.35s ease-out;
+    }
+    .problem-cards .card:hover .card-desc {
+      max-height: 500px;
+      opacity: 1;
+      color: rgba(255,255,255,0.85);
+    }
+    .problem-cards .card .card-desc .highlight {
+      color: var(--burgundy);
+      font-weight: 500;
+      transition: color 0.35s ease-out;
+    }
+    .problem-cards .card:hover .card-desc .highlight {
+      color: rgba(255,255,255,0.95);
+    }
+    @media (max-width: 768px) {
+      .problem-cards {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+      }
+    }
+    .solution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .steps-list { counter-reset: step; }
+    .step-item {
+      counter-increment: step; padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border-light); display: flex; gap: 1.25rem;
+    }
+    .step-item:first-child { padding-top: 0; }
+    .step-number {
+      font-family: 'Newsreader', serif; font-size: 2rem; font-weight: 200;
+      color: var(--burgundy); line-height: 1; flex-shrink: 0; width: 2.2rem;
+    }
+    .step-text { flex: 1; }
+    .step-text h4 { margin-bottom: 0.3rem; font-weight: 500; }
+    .step-text p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; text-align: justify; }
+    .solution-not {
+      background: var(--cream-dark); padding: 0 2rem 2rem 2rem; border-radius: 4px;
+      border-left: 3px solid var(--burgundy);
+    }
+    .solution-not p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+    .solution-not strong { color: var(--navy); }
+    .demo-banner {
+      background: var(--burgundy-pale); border: 1px solid #fde68a;
+      padding: 0.75rem 1.25rem; border-radius: 4px; font-size: 0.8rem;
+      color: var(--burgundy); text-align: center; margin-bottom: 2rem;
+    }
+    .demo-profile {
+      background: var(--cream-dark); border: 1px solid var(--border);
+      border-radius: 4px; padding: 2rem; margin-bottom: 2rem;
+    }
+    .demo-profile-header {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;
+      padding-bottom: 1rem; border-bottom: 1px solid var(--border);
+    }
+    .demo-profile-name { font-family: 'Newsreader', serif; font-size: 1.3rem; }
+    .demo-profile-meta { font-size: 0.85rem; color: var(--text-muted); }
+    .demo-badge {
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      font-weight: 600; background: var(--navy); color: white;
+      padding: 0.25rem 0.75rem; border-radius: 3px;
+    }
+    .demo-section {
+      margin-bottom: 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .demo-section:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+    .demo-section:last-child { margin-bottom: 0; }
+    .demo-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 1rem 1.25rem;
+      background: var(--cream-dark);
+      user-select: none;
+      transition: background 0.2s;
+    }
+    .demo-section-header:hover { background: var(--cream-darker); }
+    .demo-section-header h4 {
+      font-family: 'Newsreader', serif; font-size: 1.1rem; font-weight: 500;
+      color: var(--navy); margin: 0;
+    }
+    .demo-section-header h4 .time-label {
+      font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--burgundy);
+      margin-right: 0.5rem;
+    }
+    .demo-section-header svg {
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+      color: var(--text-muted);
+    }
+    .demo-section.open .demo-section-header svg { transform: rotate(180deg); }
+    .demo-section-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      padding: 0 1.25rem;
+    }
+    .demo-section.open .demo-section-body {
+      max-height: 2000px;
+      padding: 1.25rem;
+    }
+    .demo-section-body p, .demo-section-body li { font-size: 0.9rem; color: var(--text); line-height: 1.7; margin-bottom: 0.5rem; }
+    .demo-section-body ul { padding-left: 1.25rem; }
+    .demo-section-body ul li { margin-bottom: 0.4rem; }
+    .demo-section-body .key-insight {
+      background: rgba(180,83,9,0.06); border-left: 3px solid var(--burgundy);
+      padding: 1rem 1.25rem; margin: 1rem 0; border-radius: 0 4px 4px 0;
+      font-size: 0.9rem;
+    }
+    .demo-section-body .key-insight strong { color: var(--burgundy); }
+    .demo-cta { text-align: center; margin-top: 2rem; }
+    .security-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; }
+    .security-card {
+      display: block;
+      position: relative;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px; padding: 2rem;
+      z-index: 0;
+      overflow: hidden;
+      transition: box-shadow 0.3s ease;
+    }
+    .security-card:hover {
+      box-shadow: 0 8px 32px rgba(212,163,115,0.15);
+      transform: scale(0.97);
+    }
+    .security-card:active {
+      transform: scale(0.94);
+      box-shadow: inset 0 0 8px 4px rgba(0,0,0,0.15), inset 0 0 30px rgba(0,0,0,0.1), 0 8px 32px rgba(212,163,115,0.15);
+    }
+    .security-card::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      top: -16px;
+      right: -16px;
+      background: linear-gradient(135deg, #d4a373, #bc8a5f);
+      height: 32px;
+      width: 32px;
+      border-radius: 32px;
+      transform: scale(1);
+      transform-origin: 50% 50%;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .security-card:hover::before {
+      transform: scale(40);
+    }
+    .security-card h4 { margin-bottom: 0.75rem; color: #d4a373; position: relative; z-index: 1; transition: color 0.35s ease-out; }
+    .security-card:hover h4 { color: #ffffff; }
+    .security-card p { font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.6; text-align: justify; position: relative; z-index: 1; transition: color 0.35s ease-out; }
+    .security-card:hover p { color: rgba(255,255,255,0.9); }
+    .security-card .icon-wrap { margin-bottom: 1rem; position: relative; z-index: 1; }
+    .security-card .icon-wrap svg { transition: stroke 0.35s ease-out; }
+    .security-card:hover .icon-wrap svg { stroke: #ffffff !important; }
+    .security-proofs {
+      display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 2rem;
+      padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .security-proofs span { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+    .audience-text {
+      max-width: 720px; margin: 0 auto; text-align: center;
+      font-size: clamp(1rem, 1.3vw, 1.1rem); color: var(--text-muted); line-height: 1.7;
+    }
+    .pricing-argument {
+      text-align: center; max-width: 640px; margin: 0 auto 3rem;
+      font-family: 'Newsreader', serif; font-style: italic;
+      font-size: clamp(1rem, 1.3vw, 1.15rem); color: var(--text-muted); line-height: 1.6;
+    }
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+    .pricing-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 4px; padding: 2rem; position: relative; transition: box-shadow 0.2s;
+      display: flex; flex-direction: column;
+    }
+    .pricing-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .pricing-card.featured { border-color: var(--burgundy); box-shadow: 0 0 0 1px var(--burgundy); }
+    .pricing-card .pricing-btn { margin-top: auto; }
+    .pricing-badge {
+      position: absolute; top: -0.6rem; left: 50%; transform: translateX(-50%);
+      background: var(--burgundy); color: white; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.75rem;
+      border-radius: 3px; white-space: nowrap;
+    }
+    .pricing-name { font-family: 'Newsreader', serif; font-size: 1.2rem; font-weight: 500; margin-bottom: 0.5rem; }
+    .pricing-credits { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+    .pricing-price {
+      font-family: 'Newsreader', serif; font-size: 2rem; font-weight: 300;
+      color: var(--navy); margin-bottom: 0.25rem;
+    }
+    .pricing-price .strike {
+      font-size: 1rem; color: var(--stone-dark); text-decoration: line-through;
+      font-weight: 400; margin-right: 0.5rem;
+    }
+    .pricing-per { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .pricing-saving { font-size: 0.75rem; color: var(--burgundy); font-weight: 600; margin-bottom: 1rem; }
+    .pricing-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.5rem; }
+    .pricing-btn {
+      display: block; text-align: center; padding: 0.6rem 1rem;
+      font-size: 0.85rem; font-weight: 600; font-family: 'Inter', sans-serif;
+      color: #606060; text-shadow: 0 1px #fff; text-decoration: none;
+      background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+      border-radius: 30px; border: 1px solid #8F9092;
+      transition: all 0.2s ease;
+    }
+    .pricing-btn:hover {
+      color: var(--burgundy);
+      box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1;
+    }
+    .pricing-btn:active,
+    .pricing-btn:focus {
+      box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+    }
+    .pricing-table {
+      max-width: 680px; margin: 0 auto 2rem; border-collapse: collapse; font-size: 0.85rem;
+    }
+    .pricing-table th, .pricing-table td {
+      padding: 0.5rem 1rem; border-bottom: 1px solid var(--border-light); text-align: left;
+    }
+    .pricing-table th { font-weight: 600; color: var(--text-muted); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .pricing-table td { color: var(--text); }
+    /* Level cards — from Uiverse.io by JohnnyCSilva, adapted */
+    .level-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .level-card {
+      width: 100%;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      transition: 0.5s ease-in-out;
+      padding: 0.75rem;
+      gap: 0.75rem;
+      box-shadow: 0 0 0 0 var(--card-glow);
+    }
+    .level-card[style*="--card-bg:#65a30d"] { background: #ecfccb; }
+    .level-card[style*="--card-bg:#d97706"] { background: #fef3c7; }
+    .level-card[style*="--card-bg:#7f1d1d"] { background: #fef2f2; }
+    .level-card[style*="--card-bg:#7c3aed"] { background: #f3e8ff; }
+    .level-card:hover {
+      cursor: pointer;
+      transform: scale(1.03);
+      box-shadow: 0 0 24px var(--card-glow);
+    }
+    .level-card-img {
+      width: 50px;
+      height: 50px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.5s ease-in-out;
+    }
+    .level-card:hover .level-card-img {
+      background: linear-gradient(135deg, #9198e5, #712020) !important;
+    }
+    .level-card-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .level-card[style*="--card-bg:#65a30d"] .level-card-text { color: #3f6212; }
+    .level-card[style*="--card-bg:#d97706"] .level-card-text { color: #78350f; }
+    .level-card[style*="--card-bg:#7f1d1d"] .level-card-text { color: #7f1d1d; }
+    .level-card[style*="--card-bg:#7c3aed"] .level-card-text { color: #4c1d95; }
+    .level-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.2rem;
+    }
+    .level-card-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    .level-card-cost {
+      font-size: 0.65rem;
+      font-weight: 600;
+      opacity: 0.7;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .level-card-desc {
+      font-size: 0.72rem;
+      font-weight: 400;
+      opacity: 0.85;
+      line-height: 1.4;
+    }
+    @media (max-width: 600px) {
+      .level-cards { grid-template-columns: 1fr; }
+    }
+    .pricing-mentions { max-width: 640px; margin: 0 auto; font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; }
+    .pricing-mentions p { margin-bottom: 0.5rem; }
+    .testimonial-block { max-width: 720px; margin: 0 auto; text-align: center; }
+    .testimonial-quote {
+      font-family: 'Newsreader', serif; font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+      font-style: italic; font-weight: 300; line-height: 1.7; color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    .testimonial-quote::before { content: "«\00a0"; color: var(--burgundy); }
+    .testimonial-quote::after { content: "\00a0»"; color: var(--burgundy); }
+    .testimonial-author { font-size: 0.85rem; color: var(--text-muted); }
+    .faq-list { max-width: 720px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid var(--border-light); padding: 1.25rem 0; }
+    .faq-question {
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; font-weight: 500; font-size: 0.95rem;
+      color: var(--navy); user-select: none;
+    }
+    .faq-question svg { flex-shrink: 0; transition: transform 0.2s; }
+    .faq-item.open .faq-question svg { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
+      font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;
+    }
+    .faq-item.open .faq-answer { max-height: 300px; padding-top: 0.75rem; }
+    .footer {
+      background: var(--navy); color: rgba(255,255,255,0.7);
+      padding: 3rem 0 2rem; font-size: 0.8rem;
+    }
+    .footer-notice {
+      text-align: center; max-width: 720px; margin: 0 auto 2rem;
+      padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.8rem; line-height: 1.6; color: rgba(255,255,255,0.5);
+    }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+    .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--cream); }
+    .footer-brand { text-align: center; font-family: 'Newsreader', serif; font-size: 1rem; color: rgba(255,255,255,0.4); }
+    .footer-brand span { color: var(--burgundy); }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-mobile-toggle { display: block; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--cream); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; gap: 1rem; }
+      .solution-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .security-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
+      .hero-trust { flex-direction: column; align-items: center; gap: 0.75rem; }
+      .top-banner-text { display: none; }
+      .top-banner { padding: 0.5rem 1rem; }
+      .section { padding: 3rem 0; }
+      .hero { padding: 7rem 0 3rem; }
+      .demo-profile { padding: 1.25rem; }
+    }
+    @media (max-width: 480px) {
+      .container { padding: 0 1rem; }
+      .hero-ctas { flex-direction: column; align-items: center; }
+      .btn { width: 100%; justify-content: center; }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+      .fade-in.visible { opacity: 1; transform: translateY(0); }
+    }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+    .divider-dark { border-color: rgba(255,255,255,0.08); }
+    .text-center { text-align: center; }
+    .mb-1 { margin-bottom: 1rem; }
+    .mb-2 { margin-bottom: 2rem; }
+    .mb-3 { margin-bottom: 3rem; }
+    a { color: inherit; }
+
+    /* From Uiverse.io by andrew-manzyk */
+    .loader {
+      --color-one: #ffbf48;
+      --color-two: #be4a1d;
+      --color-three: #ffbf4780;
+      --color-four: #bf4a1d80;
+      --color-five: #ffbf4740;
+      --time-animation: 2s;
+      --size: 1;
+      position: relative;
+      border-radius: 50%;
+      transform: scale(var(--size));
+      box-shadow:
+        0 0 25px 0 var(--color-three),
+        0 20px 50px 0 var(--color-four);
+      animation: colorize calc(var(--time-animation) * 3) ease-in-out infinite;
+    }
+    .loader::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border-top: solid 1px var(--color-one);
+      border-bottom: solid 1px var(--color-two);
+      background: linear-gradient(180deg, var(--color-five), var(--color-four));
+      box-shadow:
+        inset 0 10px 10px 0 var(--color-three),
+        inset 0 -10px 10px 0 var(--color-four);
+    }
+    .loader .box {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(180deg, var(--color-one) 30%, var(--color-two) 70%);
+      mask: url(#clipping);
+      -webkit-mask: url(#clipping);
+    }
+    .loader svg { position: absolute; }
+    .loader svg #clipping { filter: contrast(15); animation: roundness calc(var(--time-animation) / 2) linear infinite; }
+    .loader svg #clipping polygon { filter: blur(7px); }
+    .loader svg #clipping polygon:nth-child(1) { transform-origin: 75% 25%; transform: rotate(90deg); }
+    .loader svg #clipping polygon:nth-child(2) { transform-origin: 50% 50%; animation: rotation var(--time-animation) linear infinite reverse; }
+    .loader svg #clipping polygon:nth-child(3) { transform-origin: 50% 60%; animation: rotation var(--time-animation) linear infinite; animation-delay: calc(var(--time-animation) / -3); }
+    .loader svg #clipping polygon:nth-child(4) { transform-origin: 40% 40%; animation: rotation var(--time-animation) linear infinite reverse; }
+    .loader svg #clipping polygon:nth-child(5) { transform-origin: 40% 40%; animation: rotation var(--time-animation) linear infinite reverse; animation-delay: calc(var(--time-animation) / -2); }
+    .loader svg #clipping polygon:nth-child(6) { transform-origin: 60% 40%; animation: rotation var(--time-animation) linear infinite; }
+    .loader svg #clipping polygon:nth-child(7) { transform-origin: 60% 40%; animation: rotation var(--time-animation) linear infinite; animation-delay: calc(var(--time-animation) / -1.5); }
+    @keyframes rotation {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes roundness {
+      0% { filter: contrast(15); }
+      20% { filter: contrast(3); }
+      40% { filter: contrast(3); }
+      60% { filter: contrast(15); }
+      100% { filter: contrast(15); }
+    }
+    @keyframes colorize {
+      0% { filter: hue-rotate(0deg); }
+      20% { filter: hue-rotate(-30deg); }
+      40% { filter: hue-rotate(-60deg); }
+      60% { filter: hue-rotate(-90deg); }
+      80% { filter: hue-rotate(-45deg); }
+      100% { filter: hue-rotate(0deg); }
+    }
+
+    .solution-not {
+      position: relative;
+      overflow: hidden;
+    }
+    .solution-not .loader-bg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1.5);
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .solution-not h4,
+    .solution-not p {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== BANDEAU PERSISTANT ===== -->
+  <div class="top-banner">
+    <div class="top-banner-left">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      <span class="top-banner-text">Données patient jamais transmises — anonymisation locale — votre PDF ne quitte jamais votre ordinateur.</span>
+    </div>
+    <a href="#pricing" class="top-banner-cta">Commencer</a>
+  </div>
+
+  <!-- ===== NAV ===== -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">TULEGO<span>.</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="#probleme">Problème</a>
+        <a href="#solution">Solution</a>
+        <a href="#demo">Démo</a>
+        <a href="#securite">Sécurité</a>
+        <a href="#tarifs">Tarifs</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <button class="nav-mobile-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="6" x2="20" y2="6"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="18" x2="20" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== BLOC 1 — HÉRO ===== -->
+  <section class="hero" id="hero">
+    <div class="container hero-content">
+      <p class="hero-devise">La finesse du WISC-V<br>Sans la complexité d'un <span class="highlight-burgundy">logiciel</span></p>
+      <h1><span class="highlight-brand">TULEGO</span><br>l'<em style="font-style:italic;">IA</em> au service du raisonnement clinique</h1>
+      <div class="hero-trust">
+        <span class="hero-trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--burgundy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Créé par un praticien, pour les praticiens
+        </span>
+        <span class="hero-trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--burgundy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          Testé en conditions réelles sur des profils cliniques variés
+        </span>
+      </div>
+      <div class="hero-ctas">
+        <a href="#pricing" class="btn btn-secondary">Choisir un pack</a>
+        <a href="#demo" class="btn btn-primary">Voir une analyse en action</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BLOC 2 — LE PROBLÈME ===== -->
+  <section class="section section-white" id="probleme">
+    <div class="container">
+      <p class="section-label text-center">Le problème</p>
+      <div class="problem-cards">
+        <!-- Carte 1 (ex-carte 3) -->
+        <div class="card">
+          <div class="card-number">01</div>
+          <div class="card-title">La rigueur sous haute tension</div>
+          <div class="card-sub">Préserver son discernement et sécuriser ses conclusions</div>
+          <div class="card-desc">Un bilan psychométrique génère une pression où chaque conclusion impacte potentiellement le parcours d'un enfant. Cette responsabilité se heurte à la crainte d'une erreur d'interprétation ou d'un oubli de calcul essentiel. L'analyse devient alors un <strong>exercice de vigilance mentale</strong> épuisant, qui finit par se déployer au détriment de la <strong>finesse clinique</strong>.                                             </div>
+        </div>
+        <!-- Carte 2 -->
+        <div class="card">
+          <div class="card-number">02</div>
+          <div class="card-title">Ce que le Q-Global ne fait pas</div>
+          <div class="card-sub">Des scores, pas d'interprétation clinique</div>
+          <div class="card-desc">Q-Global génère des scores. <span class="highlight">L'interprétation clinique de ces scores</span> (la prise en compte de l'anamnèse, des données d'observation, le traitement de la question clinique sous-jacente, la mise en relation des indices, la détection des dissociations significatives, la formulation d'hypothèses hiérarchisées...) reste entièrement à la charge du praticien. C'est précisément là que le temps se perd, et que le regard a besoin d'un appui structuré.                                             </div>
+        </div>
+        <!-- Carte 3 (ex-carte 1) -->
+        <div class="card">
+          <div class="card-number">03</div>
+          <div class="card-title">La difficulté à mettre en mots</div>
+          <div class="card-sub">Des heures de rédaction pour un bilan</div>
+          <div class="card-desc"><span class="highlight">Un compte-rendu WISC-V complet représente entre 2 et 4 heures de rédaction</span> pour un praticien expérimenté. Ce n'est pas le bilan qui prend du temps, c'est la mise en mots rigoureuse d'un profil souvent complexe, avec des dissociations à thématiser, des hypothèses à hiérarchiser, des limites à formuler sans se dérober. Autant d'éléments à synthétiser avec justesse voire à vulgariser pour les familles ou les enseignants.                                             </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BLOC 3 — LA SOLUTION ===== -->
+  <section class="section section-cream" id="solution">
+    <div class="container">
+      <p class="section-label text-center">La solution</p>
+      <h2 class="section-title text-center" style="margin-bottom:3rem;">Ce que TULEGO fait <em>et ne fait pas</em></h2>
+      <div class="solution-grid">
+        <div>
+          <div class="steps-list">
+            <div class="step-item">
+              <div class="step-number">01</div>
+              <div class="step-text">
+                <h4>Importez votre PDF Q-Global</h4>
+                <p>Il est lu localement sur votre navigateur, il ne quitte jamais votre ordinateur et est anonymisé avant toute extraction. La saisie manuelle également disponible pour un contrôle total, mais <strong style="color:var(--burgundy);">l'importation directe de votre PDF Q-Global est la méthode recommandée pour garantir une intégrité totale entre vos scores et leur interprétation</strong>.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">02</div>
+              <div class="step-text">
+                <h4>Calculs psychométriques côté client</h4>
+                <p>Homogénéité, comparaisons statistiques, scores... <strong style="color:var(--burgundy);">L'IA</strong> reçoit des conclusions vérifiées : elle n'approxime pas, elle <strong style="color:var(--burgundy);">interprète avec des consignes strictes et précises</strong>.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">03</div>
+              <div class="step-text">
+                <h4>Génération d'analyses structurées</h4>
+                <p><strong style="color:var(--burgundy);">Ancrée dans les modèles théoriques de référence</strong> les plus récents. 3 niveaux de finesse d'analyse disponible (Rapide, Standard ou Approfondie) sur un registre Expert ou Néophyte selon votre destinataire. Possibilité de vulgariser les analyses les plus détaillées.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">04</div>
+              <div class="step-text">
+                <h4>Exportez en DOCX ou PDF</h4>
+                <p><strong style="color:var(--burgundy);">éditez</strong> l'analyse produite, <strong style="color:var(--burgundy);">restructurez</strong> selon vos prérogatives dans votre logiciel de traitement de texte, <strong style="color:var(--burgundy);">signez</strong>, c'est <strong style="color:var(--burgundy);">terminé</strong><strong style="color:var(--burgundy);"> !</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="solution-not">
+            <div class="loader-bg">
+              <div class="loader">
+                <div class="box"></div>
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <clipPath id="clipping">
+                    <polygon points="50 0, 100 50, 50 100, 0 50"/>
+                    <polygon points="50 10, 90 50, 50 90, 10 50"/>
+                    <polygon points="50 20, 80 50, 50 80, 20 50"/>
+                    <polygon points="50 30, 70 50, 50 70, 30 50"/>
+                    <polygon points="50 40, 60 50, 50 60, 40 50"/>
+                    <polygon points="50 45, 55 50, 50 55, 45 50"/>
+                    <polygon points="50 48, 52 50, 50 52, 48 50"/>
+                  </clipPath>
+                </svg>
+              </div>
+            </div>
+            <h4 style="margin-bottom:0.5rem;font-weight:500;">Une position assumée, pas un disclaimer</h4>
+            <p>
+              TULEGO ne diagnostique pas. N'invente pas. Ne se substitue pas à votre jugement. Cette limite n'est pas une couverture, c'est le fondement de l'outil. <strong style="color:var(--burgundy);">L'analyse augmentée n'a de valeur que si vous restez aux commandes.</strong> Cette différence n'est pas sémantique, elle est épistémique et déontologique. <strong style="color:var(--burgundy);">TULEGO</strong> ne prétend pas faire mieux qu'un clinicien expert. Il <strong style="color:var(--burgundy);">fait différent</strong> : il traite l'ensemble des données du profil simultanément, sans biais de confirmation, signale ce que la lecture linéaire rate, et pose les jalons de votre compte-rendu de façon précise et détaillée.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BLOC 4 — DÉMO NAVIGABLE ===== -->
+  <section class="section section-white" id="demo">
+    <div class="container-narrow">
+      <p class="section-label text-center">Démonstration</p>
+      <h2 class="section-title text-center">Analyse en action - <em>profil fictif</em></h2>
+
+      <p style="margin-bottom:2rem;font-size:0.95rem;color:var(--text-muted);line-height:1.7;text-align:justify;">
+        L'analyse TULEGO est organisée en cinq temps successifs, qui correspondent à cinq actes cliniques distincts.
+      </p>
+
+      <div class="demo-profile">
+        <div class="demo-profile-header">
+          <div>
+            <div class="demo-profile-name">Mia</div>
+            <div class="demo-profile-meta">TDL canonique · 9 ans 4 mois · CM1</div>
+          </div>
+          <span class="demo-badge">Niveau Approfondie — Registre Expert</span>
+        </div>
+
+        <!-- Temps 0 -->
+        <div class="demo-section">
+          <div class="demo-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h4><span class="time-label">Temps 0</span>Le cadrage de la demande</h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="demo-section-body">
+            <p>Avant d'analyser quoi que ce soit, TULEGO reformule la question clinique centrale du bilan. Si le praticien a formulé une question explicite, elle devient le fil directeur de toute l'analyse.</p>
+            <div class="key-insight">
+              <strong>Extrait d'analyse TULEGO :</strong> <span class="citation-placeholder">[citation à insérer]</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Temps 1 -->
+        <div class="demo-section">
+          <div class="demo-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h4><span class="time-label">Temps 1</span>La restitution factuelle</h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="demo-section-body">
+            <p>Lecture normative et ipsative, distinctement présentées. Chaque indice est situé dans la distribution normative, avec son intervalle de confiance et sa classification qualitative. L'interprétabilité du QIT est établie. Les forces et faiblesses personnelles sont identifiées. Les dissociations entre indices sont nommées. Rien n'est interprété à ce stade, les faits d'abord.</p>
+            <div class="key-insight">
+              <strong>Extrait d'analyse TULEGO :</strong> <span class="citation-placeholder">[citation à insérer]</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Temps 2 -->
+        <div class="demo-section">
+          <div class="demo-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h4><span class="time-label">Temps 2</span>Les hypothèses interprétatives</h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="demo-section-body">
+            <p>Deux à trois hypothèses cliniques, hiérarchisées de la plus probable à la moins probable. Pour chaque hypothèse : les indicateurs du profil qui la soutiennent, et ceux qui pourraient la nuancer. La règle est stricte : aucun tableau clinique — HPI, TDA/H, trouble dys, TSA — n'est évoqué sans au moins deux indicateurs convergents dans le profil. Le motif de consultation ne compte pas comme indicateur. Le Temps 2 se clôt par une réponse explicite à la question posée au Temps 0, et ce n'est pas une ouverture vague, c'est une position argumentée.</p>
+            <div class="key-insight">
+              <strong>Extrait d'analyse TULEGO :</strong> <span class="citation-placeholder">[citation à insérer]</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Temps 3 -->
+        <div class="demo-section">
+          <div class="demo-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h4><span class="time-label">Temps 3</span>Les limites et précautions</h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="demo-section-body">
+            <p>Ce que les données ne permettent pas de conclure. Les facteurs confondants possibles : anxiété de performance, fatigue en fin de passation, bilinguisme, contexte socio-culturel spécifique. Les investigations complémentaires qui affineraient l'analyse. Et le rappel systématique que l'interprétation finale relève du praticien, en intégrant l'ensemble des données cliniques c'est-à-dire pas uniquement le bilan.</p>
+            <div class="key-insight">
+              <strong>Extrait d'analyse TULEGO :</strong> <span class="citation-placeholder">[citation à insérer]</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Temps 4 -->
+        <div class="demo-section">
+          <div class="demo-section-header" onclick="this.parentElement.classList.toggle('open')">
+            <h4><span class="time-label">Temps 4</span>Les pistes d'adaptation</h4>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="demo-section-body">
+            <p>Aménagements scolaires, points d'appui, vigilances pour l'équipe éducative, orientations éventuelles vers des structures spécialisées. Chaque piste est obligatoirement ancrée sur l'indice ou le subtest qui la justifie. Une adaptation non ancrée dans les données du profil est une recommandation générique et elle n'a donc pas sa place dans une analyse rigoureuse.</p>
+            <div class="key-insight">
+              <strong>Extrait d'analyse TULEGO :</strong> <span class="citation-placeholder">[citation à insérer]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-cta">
+        <a href="#pricing" class="btn btn-primary">Analyser mes propres bilans</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BLOC 5 — TÉMOIGNAGE ===== -->
+  <section class="section section-cream" id="temoin">
+    <div class="container-narrow">
+      <p class="section-label text-center">Témoignage</p>
+      <div class="testimonial-block">
+        <p class="testimonial-quote">
+          <strong>TULEGO a validé mes intuitions cliniques sans jamais se substituer à mon jugement : il le provoque et l'amplifie. L'outil me permet d'étayer mes hypothèses, d'en explorer et découvrir de nouvelles et, surtout, de trouver les mots justes pour accompagner les familles.</strong>
+        </p>
+        <p class="testimonial-author">Judith, psychologue en cabinet libéral</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BLOC 6 — SÉCURITÉ ET CONFORMITÉ ===== -->
+  <section class="section section-dark" id="securite">
+    <div class="container">
+      <p class="section-label text-center" style="color:#d4a373;">Sécurité & conformité</p>
+      <h2 class="section-title text-center">Vos données, votre <em style="color:#d4a373;">responsabilité</em></h2>
+      <div class="security-grid">
+        <div class="security-card">
+          <div class="icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d4a373" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h4>RGPD & données patient</h4>
+          <p>Le PDF Q-Global est traité sur votre navigateur. Il n'est jamais envoyé à un serveur. TULEGO ne stocke aucune donnée patient. Aucun historique d'analyses n'est conservé. Zéro.</p>
+        </div>
+        <div class="security-card">
+          <div class="icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d4a373" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h4>Responsabilité clinique</h4>
+          <p>TULEGO est un instrument d'aide à l'analyse. Le praticien reste l'auteur du compte-rendu et en assume la responsabilité exclusive. Cette architecture est intentionnelle.</p>
+        </div>
+        <div class="security-card">
+          <div class="icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d4a373" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h4>AI Act</h4>
+          <p>TULEGO est développé en conformité avec l'AI Act européen (UE 2024/1689) applicable aux systèmes à haut risque en santé et éducation.</p>
+        </div>
+      </div>
+      <div class="security-proofs">
+        <span>Marque INPI déposée — mars 2026</span>
+        <span>Enveloppe Soleau — date</span>
+        <span><a href="#" style="color:#d4a373;text-decoration:underline;">Politique de confidentialité</a></span>
+        <span><a href="cgu.html" style="color:#d4a373;text-decoration:underline;">CGU — détail AI Act</a></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BLOC 6 — POUR QUI (supprimé) ===== -->
+
+  <!-- ===== BLOC 7 — TARIFS ===== -->
+  <section class="section section-white" id="tarifs">
+    <div class="container">
+      <p class="section-label text-center">Tarifs</p>
+      <h2 class="section-title text-center" style="font-size:clamp(1.62rem, 3.15vw, 2.52rem);">Vous n'avez jamais signé un compte-rendu approximatif.<br><em style="color:var(--burgundy);">Ne commencez pas maintenant</em></h2>
+
+      <div class="pricing-grid" id="pricing">
+        <!-- OFFRE LANCEMENT -->
+        <div class="pricing-card featured" style="border-color:var(--burgundy);box-shadow:0 0 0 1px var(--burgundy), 0 4px 24px rgba(127,29,29,0.12);">
+          <div class="pricing-badge" style="background:var(--burgundy);">🔥 Offre Lancement</div>
+          <div class="pricing-name">Lancement</div>
+          <div class="pricing-credits">6 crédits</div>
+          <div class="pricing-price"><span class="strike">49 €</span><strong style="color:var(--burgundy);font-weight:600;">39 €</strong></div>
+          <div class="pricing-per"><strong style="color:var(--burgundy);">6,50€/crédit</strong> soit par exemple un total de 2 bilans approfondis ou un total de 2 bilans standards et leurs vulgarisations</div>
+          <div class="pricing-desc" style="font-size:0.8rem;color:var(--burgundy);font-weight:500;">⏳ -21 % : offre unique 45 jours</div>
+          <a href="#" class="pricing-btn" style="border-color:var(--burgundy);color:var(--burgundy);">Profiter de l'offre</a>
+        </div>
+
+        <!-- DÉCOUVERTE -->
+        <div class="pricing-card">
+          <div class="pricing-name">Découverte</div>
+          <div class="pricing-credits">6 crédits</div>
+          <div class="pricing-price">49 €</div>
+          <div class="pricing-per"><strong style="color:var(--burgundy);">8,17€/crédit</strong> soit par exemple un total de 2 bilans approfondis ou un total de 2 bilans standards et leurs vulgarisations</div>
+          <div class="pricing-desc">Tarif de référence</div>
+          <a href="#" class="pricing-btn">Choisir Découverte</a>
+        </div>
+
+        <!-- PRATICIEN (Pack) -->
+        <div class="pricing-card featured" style="border-color:var(--navy);box-shadow:0 0 0 1px var(--navy), 0 4px 24px rgba(15,23,42,0.08);">
+          <div class="pricing-badge" style="background:var(--navy);">Recommandé</div>
+          <div class="pricing-name">Praticien <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400;">(Pack)</span></div>
+          <div class="pricing-credits">18 crédits</div>
+          <div class="pricing-price">125 €</div>
+          <div class="pricing-per"><strong style="color:var(--burgundy);">6,94€/crédit</strong> soit par exemple un total de 6 bilans approfondis</div>
+          <div class="pricing-desc">-15 % vs Découverte</div>
+          <a href="#" class="pricing-btn" style="border-color:var(--navy);color:var(--navy);">Choisir Praticien</a>
+        </div>
+
+        <!-- ABONNEMENT PRO -->
+        <div class="pricing-card">
+          <div class="pricing-name">Abonnement Pro</div>
+          <div class="pricing-credits">12 crédits / mois</div>
+          <div class="pricing-price">65 €<span style="font-size:0.9rem;font-weight:400;color:var(--text-muted);">/mois</span></div>
+          <div class="pricing-per"><strong style="color:var(--burgundy);">5,42€/crédit</strong> soit par exemple un total de 4 bilans approfondis par mois</div>
+          <div class="pricing-desc">-34 % vs Découverte</div>
+          <a href="#" class="pricing-btn">S'abonner</a>
+        </div>
+      </div>
+
+      <div class="pricing-levels">
+        <div class="level-cards">
+          <div class="level-card" style="--card-bg:#65a30d;--card-glow:rgba(101,163,13,0.3);">
+            <div class="level-card-img" style="background:linear-gradient(135deg,#84cc16,#65a30d);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <div class="level-card-text">
+              <div class="level-card-header">
+                <span class="level-card-name">Rapide</span>
+                <span class="level-card-cost">1 crédit</span>
+              </div>
+              <p class="level-card-desc">Avant une restitution, une réunion d'équipe, une reprise de dossier. <strong>Les patterns les plus saillants</strong> du profil, la dissociation principale, une hypothèse clinique ancrée. Lecture en quelques minutes.</p>
+            </div>
+          </div>
+          <div class="level-card" style="--card-bg:#d97706;--card-glow:rgba(217,119,6,0.3);">
+            <div class="level-card-img" style="background:linear-gradient(135deg,#f59e0b,#d97706);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="level-card-text">
+              <div class="level-card-header">
+                <span class="level-card-name">Standard</span>
+                <span class="level-card-cost">2 crédits</span>
+              </div>
+              <p class="level-card-desc"><strong>L'analyse complète en quatre temps</strong> : lecture normative et ipsative, hypothèses hiérarchisées, limites et pistes d'investigation, préconisations d'adaptation. Le compte-rendu structuré.</p>
+            </div>
+          </div>
+          <div class="level-card" style="--card-bg:#7f1d1d;--card-glow:rgba(127,29,29,0.3);">
+            <div class="level-card-img" style="background:linear-gradient(135deg,#991b1b,#7f1d1d);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="level-card-text">
+              <div class="level-card-header">
+                <span class="level-card-name">Approfondie</span>
+                <span class="level-card-cost">3 crédits</span>
+              </div>
+              <p class="level-card-desc"><strong>Les profils complexes qui méritent davantage.</strong> Configurations intra- et inter-subtests, hypothèses différentielles que la lecture linéaire rate, recommandations ciblées. Jusqu'à 5 500 mots calibrés à la complexité du profil.</p>
+            </div>
+          </div>
+          <div class="level-card" style="--card-bg:#7c3aed;--card-glow:rgba(124,58,237,0.3);">
+            <div class="level-card-img" style="background:linear-gradient(135deg,#a855f7,#7c3aed);">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <div class="level-card-text">
+              <div class="level-card-header">
+                <span class="level-card-name">Vulgarisation</span>
+                <span class="level-card-cost">+1 crédit</span>
+              </div>
+              <p class="level-card-desc"><strong>À partir d'une analyse existante.</strong> Un document conçu pour les parents ou les enseignants, <strong>sans jargon</strong>, avec la chaleur que la restitution exige.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-mentions">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BLOC 8 — FAQ ===== -->
+  <section class="section section-white" id="faq">
+    <div class="container-narrow">
+      <p class="section-label text-center">FAQ</p>
+      <h2 class="section-title text-center">Questions fréquentes</h2>
+      <div class="faq-list">
+        <div class="faq-item open">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Mes données patient sont-elles en sécurité ?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer">Oui. Le PDF Q-Global est traité localement sur votre navigateur. Il n'est jamais envoyé à un serveur. TULEGO ne stocke aucune donnée patient et anonymise le PDF Q-Global avant le traitement des données. Aucun historique d'analyses n'est conservé.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            TULEGO pose-t-il des diagnostics ?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer">Non. TULEGO formule des hypothèses que le praticien évalue. Le diagnostic relève exclusivement de la responsabilité du clinicien.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Qui est responsable du compte-rendu final ?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer">Le praticien, exclusivement. TULEGO est un instrument d'aide à l'analyse. Le praticien reste l'auteur du compte-rendu et en assume la responsabilité.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Faut-il avoir Q-Global ?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer">Non, une saisie manuelle est possible mais l'import PDF automatise le remplissage des scores et limite ainsi les erreurs de saisies.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Quelle est la différence entre les 4 niveaux ?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer">Le tableau des crédits dans la section Tarifs détaille chaque niveau : Rapide (1 crédit), Standard (2 crédits), Approfondie (3 crédits), Vulgarisation (1 crédit).</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            TULEGO est-il conforme au RGPD ?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer">Oui. Consultez notre <a href="#" style="color:var(--burgundy);text-decoration:underline;">politique de confidentialité</a> pour le détail complet.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Quand mes crédits expirent-ils ?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer">Les crédits des packs n'expirent pas. Pour l'abonnement : 45 jours de report, 90 jours de conservation après résiliation.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            TULEGO fonctionne-t-il pour d'autres tests ?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer">Pas encore. WAIS-IV et WISC Non Verbal sont en développement.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Qui a développé TULEGO ?
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer">TULEGO est un outil d'aide à l'interprétation psychométrique construit de l'intérieur de la discipline par un psychologue qui a décidé qu'utiliser l'IA sans la comprendre et sans la cadrer était une faute professionnelle. Il a préféré apprendre à coder plutôt que de laisser le problème sans réponse.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-notice">
+        Les suggestions de l'IA sont des pistes de réflexion. Le compte rendu final reste sous la responsabilité exclusive du praticien.
+      </div>
+      <div class="footer-links">
+        <a href="cgu.html">CGU</a>
+        <a href="#">Confidentialité</a>
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="#">Contact support</a>
+      </div>
+      <div class="footer-brand">
+        TULEGO<span>.</span> — L'Analyse Augmentée
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCROLL ANIMATION + BOUTONS À ENFONCEMENT ===== -->
+  <script>
+    // Scroll animation
+    (function() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    })();
+
+    // (Les cartes flip 3D utilisent le CSS hover — pas de JS nécessaire)
+
+    // Glass radio group — affichage du contenu correspondant
+    document.querySelectorAll('.glass-radio-group input[type="radio"]').forEach(function(radio) {
+      radio.addEventListener('change', function() {
+        var id = this.id.replace('level-', 'content-');
+        document.querySelectorAll('.level-content').forEach(function(el) {
+          el.classList.remove('active');
+        });
+        var target = document.getElementById(id);
+        if (target) target.classList.add('active');
+      });
+    });
+    // Activer le premier contenu au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+      var checked = document.querySelector('.glass-radio-group input[type="radio"]:checked');
+      if (checked) {
+        var id = checked.id.replace('level-', 'content-');
+        var target = document.getElementById(id);
+        if (target) target.classList.add('active');
+      }
+    });
+
+    // Boutons à enfoncement physique — latence de 200ms avant navigation
+    document.querySelectorAll('.btn, .pricing-btn, .top-banner-cta').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        // Ignorer si le bouton n'a pas de href ou si c'est un #
+        var href = btn.getAttribute('href');
+        if (!href || href === '#') return;
+
+        e.preventDefault();
+
+        // Effet d'enfoncement
+        btn.style.transform = 'scale(0.94)';
+        btn.style.boxShadow = 'inset 0 0 8px 4px rgba(0,0,0,0.15), inset 0 0 30px rgba(0,0,0,0.1)';
+
+        // Après 200ms, navigation
+        setTimeout(function() {
+          window.location.href = href;
+        }, 200);
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920">
+<title>TULEGO — Présentation 60s</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: #0a1628;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #F0FDF4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#stage {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+}
+
+/* ── Scenes ── */
+.scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* ── S1 : LA DOULEUR ── */
+#s1 { background: #0a1628; }
+
+.s1-title {
+  font-size: 104px;
+  font-weight: 700;
+  color: #F0FDF4;
+  text-align: center;
+  letter-spacing: -3px;
+  line-height: 1.1;
+  opacity: 0;
+}
+.s1-sub {
+  font-size: 56px;
+  font-weight: 400;
+  color: #F0FDF4;
+  text-align: center;
+  margin-top: 52px;
+  opacity: 0;
+}
+.s1-sec {
+  font-size: 40px;
+  font-weight: 400;
+  color: #94A3B8;
+  text-align: center;
+  margin-top: 32px;
+  opacity: 0;
+}
+
+/* ── S2 : LE PROBLÈME ── */
+#s2 { background: #0a1628; padding: 0 200px; }
+
+.s2-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 56px;
+}
+.s2-p {
+  font-size: 64px;
+  font-weight: 400;
+  color: #F0FDF4;
+  text-align: center;
+  line-height: 1.35;
+  opacity: 0;
+  transform: translateY(52px);
+  will-change: opacity, transform;
+}
+.s2-p.em { color: #94A3B8; }
+
+/* ── S3 : LA RUPTURE ── */
+#s3 { background: #0a1628; padding: 0 160px; }
+
+.s3-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.s3-title {
+  font-size: 114px;
+  font-weight: 900;
+  color: #00b4d8;
+  text-align: center;
+  line-height: 1.1;
+  letter-spacing: -4px;
+  max-width: 1560px;
+  opacity: 0;
+  will-change: opacity;
+}
+.s3-sub {
+  font-size: 46px;
+  font-weight: 400;
+  color: #F0FDF4;
+  text-align: center;
+  line-height: 1.55;
+  max-width: 1440px;
+  margin-top: 60px;
+  opacity: 0;
+  will-change: opacity;
+}
+.s3-bar {
+  height: 4px;
+  background: linear-gradient(90deg, #00f5a0, #00b4d8);
+  border-radius: 2px;
+  width: 0;
+  margin-top: 28px;
+  transition: width 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ── S4 : LA SOLUTION ── */
+#s4 {
+  background: #0a1628;
+  padding: 0 220px;
+  align-items: flex-start;
+  justify-content: center;
+}
+.s4-inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+.s4-tag {
+  font-size: 24px;
+  font-weight: 700;
+  color: #94A3B8;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  opacity: 0;
+  will-change: opacity;
+}
+.s4-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+.bullet {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  opacity: 0;
+  transform: translateY(52px);
+  will-change: opacity, transform;
+}
+.check-ring {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(0, 245, 160, 0.08);
+  border: 2px solid #00f5a0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.check-ring svg { width: 34px; height: 34px; }
+.bullet-text {
+  font-size: 52px;
+  font-weight: 400;
+  color: #F0FDF4;
+  line-height: 1.3;
+}
+.bullet-text b { font-weight: 700; }
+
+/* ── S5 : CTA ── */
+#s5 { background: #0d2535; }
+
+.s5-devise {
+  font-size: 100px;
+  font-weight: 700;
+  color: #F0FDF4;
+  text-align: center;
+  letter-spacing: -3px;
+  opacity: 0;
+  will-change: opacity;
+}
+.s5-line2 {
+  font-size: 70px;
+  font-weight: 400;
+  color: #00b4d8;
+  text-align: center;
+  margin-top: 36px;
+  letter-spacing: -1px;
+  opacity: 0;
+  will-change: opacity;
+}
+.s5-url {
+  font-size: 58px;
+  font-weight: 700;
+  color: #00f5a0;
+  text-align: center;
+  margin-top: 72px;
+  letter-spacing: 6px;
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* ── Barre de progression (optionnel — masquer avant capture) ── */
+#prog {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: rgba(0, 180, 216, 0.35);
+  width: 0;
+  z-index: 100;
+}
+
+/* ── Bouton replay ── */
+#replay {
+  position: fixed;
+  bottom: 32px;
+  right: 40px;
+  padding: 12px 28px;
+  background: rgba(0, 180, 216, 0.15);
+  border: 1px solid rgba(0, 180, 216, 0.4);
+  border-radius: 8px;
+  color: #00b4d8;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.5s, background 0.2s;
+  z-index: 100;
+}
+#replay:hover { background: rgba(0, 180, 216, 0.25); }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- ── S1 : LA DOULEUR ──────────────────────────── -->
+  <div class="scene" id="s1">
+    <p class="s1-title" id="s1t">Un bilan WISC-V.</p>
+    <p class="s1-sub"  id="s1s">Entre 2 et 4 heures de rédaction.</p>
+    <p class="s1-sec"  id="s1c">Pour chaque enfant. Chaque semaine.</p>
+  </div>
+
+  <!-- ── S2 : LE PROBLÈME ─────────────────────────── -->
+  <div class="scene" id="s2">
+    <div class="s2-wrap">
+      <p class="s2-p"    id="p1">Q-Global génère des scores.</p>
+      <p class="s2-p em" id="p2">L'interprétation, les hypothèses, les limites…</p>
+      <p class="s2-p"    id="p3">…restent entièrement à votre charge.</p>
+    </div>
+  </div>
+
+  <!-- ── S3 : LA RUPTURE ──────────────────────────── -->
+  <div class="scene" id="s3">
+    <div class="s3-inner">
+      <p class="s3-title" id="s3t">Et si vous n'aviez plus<br>à faire ça seul&nbsp;?</p>
+      <p class="s3-sub"   id="s3s">TULEGO structure le profil. Formule les hypothèses. Signale les limites.</p>
+      <div class="s3-bar" id="s3b"></div>
+    </div>
+  </div>
+
+  <!-- ── S4 : LA SOLUTION ─────────────────────────── -->
+  <div class="scene" id="s4">
+    <div class="s4-inner">
+      <p class="s4-tag" id="s4g">TULEGO — L'Analyse Augmentée</p>
+      <div class="s4-bullets">
+
+        <div class="bullet" id="b1">
+          <div class="check-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#00f5a0" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <p class="bullet-text">
+            <b>Import de votre PDF Q-Global.</b> Traitement 100&nbsp;% local.
+          </p>
+        </div>
+
+        <div class="bullet" id="b2">
+          <div class="check-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#00f5a0" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <p class="bullet-text">
+            <b>Analyse structurée en 4 temps cliniques.</b> 4 niveaux de profondeur.
+          </p>
+        </div>
+
+        <div class="bullet" id="b3">
+          <div class="check-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#00f5a0" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <p class="bullet-text">
+            <b>Export DOCX ou PDF.</b> Prêt à éditer. Prêt à signer.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── S5 : CTA ─────────────────────────────────── -->
+  <div class="scene" id="s5">
+    <p class="s5-devise" id="s5d">La finesse du WISC-V.</p>
+    <p class="s5-line2"  id="s5l">Sans la complexité d'un logiciel.</p>
+    <p class="s5-url"    id="s5u">tulego.fr</p>
+  </div>
+
+</div>
+
+<div id="prog"></div>
+<button id="replay" onclick="location.reload()">↺ Rejouer</button>
+
+<script>
+'use strict';
+
+/* ── Helpers ─────────────────────────────────────────────── */
+
+const START = performance.now();
+
+function at(ms, fn) {
+  const delta = ms - (performance.now() - START);
+  setTimeout(fn, Math.max(0, delta));
+}
+
+// Cross-fade d'une scène
+function sceneIn(id, dur = 500) {
+  const el = document.getElementById(id);
+  el.style.transition = `opacity ${dur}ms ease`;
+  el.style.opacity = '1';
+}
+function sceneOut(id, dur = 500) {
+  const el = document.getElementById(id);
+  el.style.transition = `opacity ${dur}ms ease`;
+  el.style.opacity = '0';
+}
+
+// Fade simple sur n'importe quel élément
+function fadeIn(id, dur = 800) {
+  const el = document.getElementById(id);
+  el.style.transition = `opacity ${dur}ms ease`;
+  el.style.opacity = '1';
+}
+
+// Slide-up + fade
+function slideIn(id, dur = 600) {
+  const el = document.getElementById(id);
+  el.style.transition = `opacity ${dur}ms ease, transform ${dur}ms cubic-bezier(0.16, 1, 0.3, 1)`;
+  el.style.opacity = '1';
+  el.style.transform = 'translateY(0)';
+}
+
+/* ── Timeline ────────────────────────────────────────────── */
+
+// Barre de progression
+at(80, () => {
+  const p = document.getElementById('prog');
+  p.style.transition = 'width 60s linear';
+  p.style.width = '1920px';
+});
+
+// ─────────────────────────────────────────────────────────
+// SCÈNE 1 — LA DOULEUR (0 → 8 000 ms)
+// ─────────────────────────────────────────────────────────
+at(0,    () => sceneIn('s1', 400));
+
+at(500,  () => fadeIn('s1t', 1400));   // "Un bilan WISC-V."
+at(2500, () => fadeIn('s1s', 900));    // "Entre 2 et 4 heures..."
+at(4500, () => fadeIn('s1c', 900));    // "Pour chaque enfant..."
+
+// Crossfade vers S2
+at(7500, () => sceneIn('s2', 500));
+at(8000, () => sceneOut('s1', 500));
+
+// ─────────────────────────────────────────────────────────
+// SCÈNE 2 — LE PROBLÈME (8 000 → 20 000 ms)
+// ─────────────────────────────────────────────────────────
+at(8600,  () => slideIn('p1', 650));   // "Q-Global génère des scores."
+at(10600, () => slideIn('p2', 650));   // (pause 1s) "L'interprétation..."
+at(13600, () => slideIn('p3', 650));   // "...restent entièrement à votre charge."
+
+// Crossfade vers S3
+at(19500, () => sceneIn('s3', 500));
+at(20000, () => sceneOut('s2', 500));
+
+// ─────────────────────────────────────────────────────────
+// SCÈNE 3 — LA RUPTURE (20 000 → 35 000 ms)
+// ─────────────────────────────────────────────────────────
+at(20600, () => fadeIn('s3t', 1100));  // Grand titre cyan
+
+at(22700, () => fadeIn('s3s', 900));   // Sous-titre blanc
+at(23200, () => {                       // Barre teal animée
+  document.getElementById('s3b').style.width = '920px';
+});
+
+// Crossfade vers S4
+at(34500, () => sceneIn('s4', 500));
+at(35000, () => sceneOut('s3', 500));
+
+// ─────────────────────────────────────────────────────────
+// SCÈNE 4 — LA SOLUTION (35 000 → 52 000 ms)
+// ─────────────────────────────────────────────────────────
+at(35100, () => fadeIn('s4g', 600));   // Tag "TULEGO — L'Analyse Augmentée"
+
+at(36400, () => slideIn('b1', 650));   // Bullet 1
+at(40400, () => slideIn('b2', 650));   // Bullet 2
+at(44400, () => slideIn('b3', 650));   // Bullet 3
+
+// Crossfade vers S5
+at(51500, () => sceneIn('s5', 500));
+at(52000, () => sceneOut('s4', 500));
+
+// ─────────────────────────────────────────────────────────
+// SCÈNE 5 — CTA (52 000 → 60 000 ms)
+// ─────────────────────────────────────────────────────────
+at(52500, () => fadeIn('s5d', 900));   // "La finesse du WISC-V."
+at(54200, () => fadeIn('s5l', 900));   // "Sans la complexité..."
+at(56400, () => fadeIn('s5u', 1100));  // "tulego.fr"
+
+// Bouton replay
+at(60500, () => {
+  document.getElementById('replay').style.opacity = '1';
+});
+</script>
+</body>
+</html>
